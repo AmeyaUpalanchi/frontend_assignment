@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiOutlineCloseCircle, AiOutlineSearch } from "react-icons/ai";
 
-import {locations } from "./tabs";
+import { locations } from "./tabs";
 // import { useClickOutside } from "react-click-outside-hook";
 import { Places } from "./results.component";
 import { motion } from "framer-motion";
@@ -22,7 +22,6 @@ const containerTransition = { type: "spring", damping: 22, stiffness: 150 };
 const SearchBar = (props) => {
   const [isExpanded, setExpanded] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
-  const [selectedCities, setselectedCities] = useState("");
 
   const expandContainer = () => {
     setExpanded(true);
@@ -37,8 +36,12 @@ const SearchBar = (props) => {
   };
 
   const onSelectOptions = (event) => {
-    setselectedCities(event.target.innerText);
+    setSelectedOption(event.target.innerText);
   };
+
+  useEffect(() => {
+    props.expand === false ? setExpanded(false) : setExpanded(true);
+  }, [props.value]);
 
   return (
     <>
@@ -78,13 +81,15 @@ const SearchBar = (props) => {
             </div>
           </button>
         </div>
-        {isExpanded && (
-          <h4 style={{ marginLeft: 30 }}>
-            You selected: {selectedOption} & {selectedCities}
-          </h4>
+        {!props.expand && (
+          <div style={{display:'flex', justifyContent:'space-between' }}>
+            <h4 style={{ marginLeft: 30 }}>Please type more than 3 letters</h4>
+            <h4>You selected: {selectedOption}</h4>
+          </div>
         )}
-        {isExpanded && (
-          <motion.div className="content-container"
+        {props.expand && (
+          <motion.div
+            className="content-container"
             animate={isExpanded ? "expanded" : "collapsed"}
             variants={containerVariants}
             transition={containerTransition}
@@ -142,6 +147,38 @@ const SearchBar = (props) => {
             </div>
           </motion.div>
         )}
+        
+
+        <div> 
+          {!props.expand && (
+
+        
+            <div className="continents">
+              {locations.map(({ title, img }, i) => (
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <img
+                    onClick={onSelectContinents}
+                    style={{ width: 130, marginLeft: 10 }}
+                    src={img}
+                    alt={title}
+                  />
+                  <h4>{title}</h4>
+                </div>
+              ))}
+            </div>
+              )}
+
+          {/* {!props.isLoading && props.hasNoData && (
+                <div className="loading-container-text">
+                  <p>Start typing to Search</p>
+                </div>
+              )}
+              {!props.isLoading && props.hasNoData && (
+                <div className="loading-container-text">
+                  <p>Enter minimum 3 letters to search</p>
+                </div>
+              )} */}
+        </div>
       </motion.div>
     </>
   );

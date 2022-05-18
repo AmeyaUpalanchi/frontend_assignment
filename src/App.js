@@ -9,6 +9,7 @@ const App = () => {
   const [query, setQuery] = useState("");
   const [data, setData] = useState();
   const [noData, setNoData] = useState(false);
+  const [expand, setExpand] = useState(false)
   const [isLoading, setLoading] = useState(false);
   const [isQueryValid, setQueyValidity] = useState(true);
 
@@ -20,10 +21,14 @@ const App = () => {
     const checkUserInput = (text) => {
       if (text.length < 3) {
         setQueyValidity(false);
+        setExpand(false)
       } else if (text.trim() == "") {
         setQueyValidity(false);
+        setExpand(false)
+
       } else {
         setQuery(text);
+        setExpand(true)
       }
     };
 
@@ -72,6 +77,7 @@ const App = () => {
         hasNoData={isEmpty}
         onChange={handleChange}
         value={query}
+        expand={expand}
       />
     </div>
   );

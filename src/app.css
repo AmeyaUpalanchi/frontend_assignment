@@ -66,12 +66,11 @@ p {
   margin-top: 30px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 35px;
-  row-gap: 30px;
+  column-gap: 50px;
 }
 
 .continents :hover {
-  background-color: #fafafa;
+  cursor: pointer;
 }
 
 .search-icon-container {
@@ -112,7 +111,6 @@ p {
   width: 100%;
   min-height: 6em;
   display: flex;
-  padding: 6px 8px;
   align-items: center;
 }
 
